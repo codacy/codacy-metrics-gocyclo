@@ -61,7 +61,7 @@ object GoCyclo extends MetricsTool {
   }
 
   private def runTool(directory: String, command: Seq[String]): Try[CommandResult] = {
-    val directoryOpt = safeCall(new io.File(directory), s"Could not create java.io.File from $directory").toOption
+    val directoryOpt = safeCall(s"Could not create java.io.File from $directory", new io.File(directory)).toOption
     CommandRunner.exec(command.toList, directoryOpt) match {
       case Right(output) =>
         Success(output)
@@ -94,7 +94,7 @@ object GoCyclo extends MetricsTool {
 
   private def defaultException(message: String): Throwable = new Exception(message)
 
-  def safeCall[T](call: => T, message: String): Try[T] = {
+  def safeCall[T](message: String, call: => T): Try[T] = {
     Try {
       Option(call).fold[Try[T]](Failure(defaultException(message)))(Success(_))
     }.flatten
