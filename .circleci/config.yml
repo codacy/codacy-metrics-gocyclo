@@ -107,10 +107,9 @@ jobs:
       - run:
           name: Install the tool
           command: |
-            apk update
-            apk add musl-dev go git
+            sudo apt-get install musl-dev go git
             go get github.com/fzipp/gocyclo
-            apk del musl-dev git
+            sudo apt-get remove musl-dev git
             rm -rf /tmp/*
             rm -rf /var/cache/apk/*
       - run:
