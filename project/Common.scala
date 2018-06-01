@@ -6,8 +6,6 @@ import sbt.{Def, _}
 
 object Common {
 
-  val clocVersion = scala.io.Source.fromFile(".cloc-version").mkString.trim
-
   private val defaultDockerInstallationPath = "/opt/codacy"
 
   val dockerSettings: Seq[Def.Setting[_]] = Seq(
@@ -26,15 +24,16 @@ object Common {
         List(
           Cmd("RUN", "adduser -u 2004 -D docker"),
           cmd,
+          Cmd("ENV", "GOPATH", "/go"),
+          Cmd("ENV", "PATH", "/go/bin:$PATH"),
           Cmd(
             "RUN",
-            s"""apk update &&
-               |apk add perl &&
-               |apk add bash curl nodejs-npm &&
-               |npm install -g npm@5 &&
-               |npm install -g cloc@$clocVersion &&
-               |rm -rf /tmp/* &&
-               |rm -rf /var/cache/apk/*""".stripMargin.replaceAll(System.lineSeparator(), " ")))
+            """apk update &&
+              |apk add musl-dev go git &&
+              |go get github.com/fzipp/gocyclo &&
+              |apk del musl-dev git &&
+              |rm -rf /tmp/* &&
+              |rm -rf /var/cache/apk/*""".stripMargin.replaceAll(System.lineSeparator(), " ")))
 
       case other => List(other)
     })
