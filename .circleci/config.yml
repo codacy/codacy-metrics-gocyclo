@@ -93,15 +93,13 @@ jobs:
     <<: *default_java_job
     environment:
       <<: *docker_environment_defaults
+      GOPATH: /go
+      PATH: /go/bin:$PATH
     steps:
       - *restore_source_code
       - *setup_dependencies_key
       - *restore_dependencies
       - *restore_build
-      - run:
-          command: |
-            echo "export GOPATH=/go && export PATH=/go/bin:$PATH" >> $BASH_ENV
-            source $BASH_ENV
       - run:
           name: Install the tool
           command: |
