@@ -7,7 +7,6 @@ import codacy.docker.api.{MetricsConfiguration, Source}
 import com.codacy.api.dtos.{Language, Languages}
 import com.codacy.docker.api.utils.{CommandResult, CommandRunner}
 
-import scala.collection.immutable
 import scala.util.matching.Regex
 import scala.util.{Failure, Success, Try}
 
