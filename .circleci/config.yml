@@ -102,7 +102,8 @@ jobs:
           name: Install the tool
           command: |
             export GOPATH=/go
-            export PATH=/go/bin:$PATH
+            echo 'export PATH=/go/bin:$PATH' >> $BASH_ENV
+            source $BASH_ENV
             apk update
             apk add musl-dev go git
             go get github.com/fzipp/gocyclo
