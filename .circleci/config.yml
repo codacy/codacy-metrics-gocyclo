@@ -104,10 +104,7 @@ jobs:
             export GOPATH=/go
             export PATH=/go/bin:$PATH
             sudo apt-get install musl-dev golang git
-            go get github.com/fzipp/gocyclo
-            sudo apt-get remove musl-dev git
-            rm -rf /tmp/*
-            rm -rf /var/cache/apk/*
+            sudo go get github.com/fzipp/gocyclo
       - run:
           name: Test
           command: ./scripts/test.sh
