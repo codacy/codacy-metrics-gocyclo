@@ -10,15 +10,6 @@ import com.codacy.docker.api.utils.{CommandResult, CommandRunner}
 import scala.util.matching.Regex
 import scala.util.{Failure, Success, Try}
 
-case class GoCycloFileComplexity(fileName: String, methods: Seq[GoCycloMethodComplexity])
-
-case class GoCycloMethodComplexity(complexity: Int,
-                                   packageName: String,
-                                   functionName: String,
-                                   fileName: String,
-                                   row: Int,
-                                   column: Int)
-
 object GoCyclo extends MetricsTool {
 
   override def apply(source: Source.Directory,
