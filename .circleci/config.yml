@@ -107,7 +107,10 @@ jobs:
             sudo -E go get github.com/fzipp/gocyclo
       - run:
           name: Test
-          command: ./scripts/test.sh
+          command: |
+            export GOPATH="/go"
+            export PATH="/go/bin:$PATH"
+            ./scripts/test.sh
       - run:
           name: Store test reports
           working_directory: ~/
