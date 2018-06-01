@@ -103,7 +103,7 @@ jobs:
           command: |
             export GOPATH=/go
             export PATH=/go/bin:$PATH
-            sudo apt-get install musl-dev go git
+            sudo apt-get install musl-dev golang git
             go get github.com/fzipp/gocyclo
             sudo apt-get remove musl-dev git
             rm -rf /tmp/*
