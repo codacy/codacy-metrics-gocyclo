@@ -2,6 +2,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/bf84767dabda4586bdb8a7c434c1f568)](https://www.codacy.com/app/Codacy/codacy-metrics-gocyclo?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codacy/codacy-metrics-gocyclo&amp;utm_campaign=Badge_Grade)
 [![CircleCI](https://circleci.com/gh/codacy/codacy-metrics-gocyclo.svg?style=svg)](https://circleci.com/gh/codacy/codacy-metrics-gocyclo)
+[![Docker Version](https://images.microbadger.com/badges/version/codacy/codacy-metrics-gocyclo.svg)](https://microbadger.com/images/codacy/codacy-metrics-gocyclo "Get your own version badge on microbadger.com")
 
 This is the docker engine we use at Codacy to have [GoCyclo](https://github.com/fzipp/gocyclo) support.
 
@@ -10,7 +11,7 @@ This is the docker engine we use at Codacy to have [GoCyclo](https://github.com/
 You can create the docker by doing:
 
 ```bash
-sbt docker:publishLocal
+./scripts/publish.sh
 ```
 
 The docker is ran with the following command:
@@ -27,12 +28,13 @@ Before running the tests, you need to install gocyclo:
 ```bash
 apt-get install golang -y
 go get github.com/fzipp/gocyclo
+export PATH=$PATH:~/go/bin
 ```
 
 After that, you can run the tests:
 
 ```bash
-sbt test
+./scripts/test
 ```
 
 ## What is Codacy
