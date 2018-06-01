@@ -80,3 +80,7 @@ project/plugins/project/
 
 
 # End of https://www.gitignore.io/api/sbt,scala,intellij+all
+
+### MacOS X default files ###
+# Ignore .DS_Store folder attributes files
+.DS_Store
