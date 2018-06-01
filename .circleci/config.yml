@@ -99,10 +99,10 @@ jobs:
       - *restore_dependencies
       - *restore_build
       - run:
+        command: echo "export GOPATH=/go && export PATH=/go/bin:$PATH" >> $BASH_ENV
+      - run:
           name: Install the tool
           command: |
-            export GOPATH=/go
-            export PATH=/go/bin:$PATH
             sudo apt-get install musl-dev golang git
             sudo go get github.com/fzipp/gocyclo
       - run:
