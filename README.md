@@ -7,6 +7,11 @@
 
 This is the docker engine we use at Codacy to have [GoCyclo](https://github.com/fzipp/gocyclo) support.
 
+## Requirements
+
+* Go
+* Java 8+
+
 ## Usage
 
 You can create the docker by doing:
@@ -24,18 +29,24 @@ docker run -it -v $PWD/src/test/resources:/src codacy/codacy-metrics-gocyclo:lat
 
 ## Test
 
-Before running the tests, you need to install gocyclo:
+Before running the tests, you need to setup the go environment
+and add the binaries localtion to your path:
 
 ```bash
-apt-get install golang -y
+export GOPATH="$HOME/go"
+export PATH="$HOME/go/bin:$PATH"
+```
+
+Then you can install GoCyclo:
+
+```bash
 go get github.com/fzipp/gocyclo
-export PATH=$PATH:~/go/bin
 ```
 
 After that, you can run the tests:
 
 ```bash
-./scripts/test
+./scripts/test.sh
 ```
 
 ## What is Codacy
