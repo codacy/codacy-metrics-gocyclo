@@ -1,7 +1,7 @@
 import sbt.Keys._
 import sbt._
 
-name := """codacy-metrics-gocyclo"""
+name := "codacy-metrics-gocyclo"
 
 version := "1.0.0-SNAPSHOT"
 
