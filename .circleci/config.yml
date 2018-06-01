@@ -93,8 +93,6 @@ jobs:
     <<: *default_java_job
     environment:
       <<: *docker_environment_defaults
-      GOPATH: /go
-      PATH: /go/bin:$PATH
     steps:
       - *restore_source_code
       - *setup_dependencies_key
@@ -103,6 +101,8 @@ jobs:
       - run:
           name: Install the tool
           command: |
+            export GOPATH=/go
+            export PATH=/go/bin:$PATH
             apk update
             apk add musl-dev go git
             go get github.com/fzipp/gocyclo
