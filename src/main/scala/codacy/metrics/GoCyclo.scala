@@ -7,6 +7,7 @@ import codacy.docker.api.{MetricsConfiguration, Source}
 import com.codacy.api.dtos.{Language, Languages}
 import com.codacy.docker.api.utils.{CommandResult, CommandRunner}
 
+import scala.collection.immutable
 import scala.util.matching.Regex
 import scala.util.{Failure, Success, Try}
 
@@ -60,8 +61,9 @@ object GoCyclo extends MetricsTool {
       case _ => None
     }
 
+    val lineComplexitiesWithFilename: Map[String, Seq[(String, LineComplexity)]] = lineComplexities.groupBy(_._1)
     val lineComplexitiesByFilename: Map[String, Set[LineComplexity]] =
-      lineComplexities.groupBy(_._1).mapValues(_.map(_._2)(collection.breakOut))
+      lineComplexitiesWithFilename.mapValues(_.map(_._2)(collection.breakOut))
     lineComplexitiesByFilename.map {
       case (fileName, fileLineComplexities) =>
         FileMetrics(
