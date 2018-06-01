@@ -17,14 +17,14 @@ class GoCycloSpec extends Specification {
       "all files within a directory" in {
 
         val fileMetricsMap =
-          GoCyclo.apply(source = Source.Directory(targetDir), language = None, files = None, options = Map.empty)
+          GoCyclo(source = Source.Directory(targetDir), language = None, files = None, options = Map.empty)
 
         fileMetricsMap.get should beEqualTo(expectedFileMetrics)
       }
 
       "specific files" in {
 
-        val fileMetricsMap = GoCyclo.apply(
+        val fileMetricsMap = GoCyclo(
           source = Source.Directory(targetDir),
           language = None,
           files = Some(Set(Source.File(expectedFileMetric.filename))),
