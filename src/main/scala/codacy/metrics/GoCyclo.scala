@@ -61,9 +61,11 @@ object GoCyclo extends MetricsTool {
       case _ => None
     }
 
-    val lineComplexitiesWithFilename: Map[String, Seq[(String, LineComplexity)]] = lineComplexities.groupBy(_._1)
+    val lineComplexitiesWithFilename: Map[String, Seq[(String, LineComplexity)]] = lineComplexities.groupBy {
+      case (fileName, _) => fileName
+    }
     val lineComplexitiesByFilename: Map[String, Set[LineComplexity]] =
-      lineComplexitiesWithFilename.mapValues(_.map(_._2)(collection.breakOut))
+      lineComplexitiesWithFilename.mapValues(_.map { case (_, complexities) => complexities }(collection.breakOut))
     lineComplexitiesByFilename.map {
       case (fileName, fileLineComplexities) =>
         FileMetrics(
