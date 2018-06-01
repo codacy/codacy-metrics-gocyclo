@@ -4,7 +4,7 @@ import java.io
 
 import codacy.docker.api.metrics.{FileMetrics, LineComplexity, MetricsTool}
 import codacy.docker.api.{MetricsConfiguration, Source}
-import com.codacy.api.dtos.Language
+import com.codacy.api.dtos.{Language, Languages}
 import com.codacy.docker.api.utils.{CommandResult, CommandRunner}
 
 import scala.util.matching.Regex
@@ -26,42 +26,22 @@ object GoCyclo extends MetricsTool {
                      files: Option[Set[Source.File]],
                      options: Map[MetricsConfiguration.Key, MetricsConfiguration.Value]): Try[List[FileMetrics]] = {
 
-    val filesComplexity: Try[Seq[GoCycloFileComplexity]] = GoCyclo.calculateComplexity(source.path, files)
-    filesComplexity.foreach(_.foreach(println(_)))
-    val analysedFiles: Try[Set[String]] = filesComplexity.map(_.map(_.fileName)(collection.breakOut))
-
-    for {
-      theFiles <- analysedFiles
-      complexityResults <- filesComplexity
-    } yield {
-      theFiles.map(file => {
-        val fileComplexity: Option[GoCycloFileComplexity] = complexityResults.find(_.fileName == file)
-        val linesComplexity: Set[LineComplexity] =
-          (for {
-            complexity <- fileComplexity.toSeq
-            methodComplexity <- complexity.methods
-          } yield LineComplexity(methodComplexity.row, methodComplexity.complexity))(collection.breakOut)
-
-        FileMetrics(
-          file,
-          complexity = fileComplexity.map(file => file.methods.map(_.complexity).:+(0).max),
-          loc = None,
-          cloc = None,
-          lineComplexities = linesComplexity,
-          nrMethods = Option(linesComplexity.size) // since each line is a method/function
-        )
-      })
-    }.toList
+    language match {
+      case Some(lang) if lang != Languages.Go =>
+        Failure(new Exception(s"GoCyclo only supports Go. Provided language: $lang"))
+      case _ =>
+        GoCyclo.calculateComplexity(source.path, files)
+    }
   }
 
-  def calculateComplexity(directory: String, files: Option[Set[Source.File]]): Try[Seq[GoCycloFileComplexity]] = {
+  private def calculateComplexity(directory: String, files: Option[Set[Source.File]]): Try[List[FileMetrics]] = {
     val raw: Try[CommandResult] = runTool(directory, complexityCommand(files))
 
     raw.map((y: CommandResult) => parseOutput(y))
   }
 
   private def runTool(directory: String, command: Seq[String]): Try[CommandResult] = {
-    val directoryOpt = safeCall(s"Could not create java.io.File from $directory", new io.File(directory)).toOption
+    val directoryOpt = Option(new io.File(directory))
     CommandRunner.exec(command.toList, directoryOpt) match {
       case Right(output) =>
         Success(output)
@@ -80,24 +60,28 @@ object GoCyclo extends MetricsTool {
     }
   }
 
-  private def parseOutput(results: CommandResult): Seq[GoCycloFileComplexity] = {
+  private def parseOutput(results: CommandResult): List[FileMetrics] = {
     val regex: Regex = """(\d*?) (.*?) (.*?) (.*):(\d*):(\d*)""".r
 
-    val parsedLines: Seq[GoCycloMethodComplexity] = results.stdout.flatMap {
-      case regex(complexity, packageName, functionName, fileName, row, column) =>
-        Option(GoCycloMethodComplexity(complexity.toInt, packageName, functionName, fileName, row.toInt, column.toInt))
+    val lineComplexities: Seq[(String, LineComplexity)] = results.stdout.flatMap {
+      case regex(complexity, _, _, fileName, row, _) =>
+        Option((fileName, LineComplexity(row.toInt, complexity.toInt)))
       case _ => None
     }
 
-    parsedLines.groupBy(_.fileName).map(GoCycloFileComplexity.tupled(_))(collection.breakOut)
-  }
-
-  private def defaultException(message: String): Throwable = new Exception(message)
-
-  def safeCall[T](message: String, call: => T): Try[T] = {
-    Try {
-      Option(call).fold[Try[T]](Failure(defaultException(message)))(Success(_))
-    }.flatten
+    val lineComplexitiesByFilename: Map[String, Set[LineComplexity]] =
+      lineComplexities.groupBy(_._1).mapValues(_.map(_._2)(collection.breakOut))
+    lineComplexitiesByFilename.map {
+      case (fileName, fileLineComplexities) =>
+        FileMetrics(
+          fileName,
+          complexity = Some((fileLineComplexities.map(_.value) ++ Set(0)).max),
+          loc = None,
+          cloc = None,
+          lineComplexities = fileLineComplexities,
+          nrMethods = Option(fileLineComplexities.size) // since each line is a method/function
+        )
+    }(collection.breakOut)
   }
 
 }
