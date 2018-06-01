@@ -93,8 +93,8 @@ jobs:
     <<: *default_java_job
     environment:
       <<: *docker_environment_defaults
-      GOPATH: "/go"
-      PATH: "$GOPATH/bin:$PATH"
+      GOPATH: /go
+      PATH: /go/bin:$PATH
     steps:
       - *restore_source_code
       - *setup_dependencies_key
