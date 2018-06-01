@@ -99,7 +99,7 @@ jobs:
       - *restore_dependencies
       - *restore_build
       - run:
-        command: echo "export GOPATH=/go && export PATH=/go/bin:$PATH" >> $BASH_ENV
+          command: echo "export GOPATH=/go && export PATH=/go/bin:$PATH" >> $BASH_ENV
       - run:
           name: Install the tool
           command: |
