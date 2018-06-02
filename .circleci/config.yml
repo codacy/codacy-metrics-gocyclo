@@ -99,17 +99,18 @@ jobs:
       - *restore_dependencies
       - *restore_build
       - run:
+          name: Setup Go environment
+          command: |
+            echo 'export GOPATH="/go"' >> $BASH_ENV
+            echo 'export PATH="$GOPATH/bin:$PATH"' >> $BASH_ENV
+      - run:
           name: Install the tool
           command: |
-            export GOPATH="/go"
-            export PATH="/go/bin:$PATH"
-            sudo -E apt-get install musl-dev golang git
+            sudo -E apt-get install musl-dev git golang
             sudo -E go get github.com/fzipp/gocyclo
       - run:
           name: Test
           command: |
-            export GOPATH="/go"
-            export PATH="/go/bin:$PATH"
             ./scripts/test.sh
       - run:
           name: Store test reports
