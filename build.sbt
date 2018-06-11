@@ -13,7 +13,7 @@ lazy val codacyMetricsGocyclo = project
       List(
         organization := "com.codacy",
         scalaVersion := scalaVersionNumber,
-        version := "0.1.0-SNAPSHOT"
+        version := "0.1.0-SNAPSHOT",
         scalacOptions ++= Common.compilerFlags,
         scalacOptions in Test ++= Seq("-Yrangepos"),
         scalacOptions in (Compile, console) --= Seq("-Ywarn-unused:imports", "-Xfatal-warnings"))),
