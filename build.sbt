@@ -1,7 +1,8 @@
 import sbt.Keys._
 import sbt._
 
-name := "codacy-metrics-gocyclo"
+val projectName = "codacy-metrics-gocyclo"
+name := projectName
 
 version := "1.0.0-SNAPSHOT"
 
@@ -27,7 +28,7 @@ lazy val codacyMetricsGocyclo = project
         scalacOptions ++= Common.compilerFlags,
         scalacOptions in Test ++= Seq("-Yrangepos"),
         scalacOptions in (Compile, console) --= Seq("-Ywarn-unused:imports", "-Xfatal-warnings"))),
-    name := "codacy-analysis-cli",
+    name := projectName,
     // App Dependencies
     libraryDependencies ++= Seq(Dependencies.Codacy.metricsSeed),
     // Test Dependencies
