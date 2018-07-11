@@ -29,6 +29,7 @@ object Common {
           Cmd(
             "RUN",
             """apk update &&
+              |apk add --no-cache bash &&
               |apk add musl-dev go git &&
               |go get github.com/fzipp/gocyclo &&
               |apk del musl-dev git &&
