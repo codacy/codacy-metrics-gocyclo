@@ -2,10 +2,10 @@ package codacy.metrics
 
 import java.io
 
-import codacy.docker.api.metrics.{FileMetrics, LineComplexity, MetricsTool}
-import codacy.docker.api.{MetricsConfiguration, Source}
-import com.codacy.api.dtos.{Language, Languages}
 import com.codacy.docker.api.utils.{CommandResult, CommandRunner}
+import com.codacy.plugins.api.languages.{Language, Languages}
+import com.codacy.plugins.api.metrics.{FileMetrics, LineComplexity, MetricsTool}
+import com.codacy.plugins.api.{Options, Source}
 
 import scala.util.matching.Regex
 import scala.util.{Failure, Success, Try}
@@ -15,7 +15,7 @@ object GoCyclo extends MetricsTool {
   override def apply(source: Source.Directory,
                      language: Option[Language],
                      files: Option[Set[Source.File]],
-                     options: Map[MetricsConfiguration.Key, MetricsConfiguration.Value]): Try[List[FileMetrics]] = {
+                     options: Map[Options.Key, Options.Value]): Try[List[FileMetrics]] = {
 
     language match {
       case Some(lang) if lang != Languages.Go =>
