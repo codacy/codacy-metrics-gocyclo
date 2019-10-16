@@ -88,3 +88,8 @@ project/plugins/project/
 ### Metals ###
 .bloop
 .metals
+
+
+### Vim ###
+*~
+.*.swp

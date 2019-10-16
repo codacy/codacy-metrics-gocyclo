@@ -16,8 +16,14 @@ workflows:
             # needed to run tests
             sudo apt-get update
             sudo apt-get install -y musl-dev git golang
-            GOPATH="/go" sudo go get github.com/fzipp/gocyclo
-            PATH=$GOPATH/bin:$PATH sbt "set scalafmtUseIvy in ThisBuild := false;
+
+            mkdir ~/go
+            export GOPATH=~/go
+            go get github.com/fzipp/gocyclo
+
+
+            export PATH=$GOPATH/bin:$PATH
+            sbt "set scalafmtUseIvy in ThisBuild := false;
                  scalafmt::test;
                  test:scalafmt::test;
                  sbt:scalafmt::test;
