@@ -54,17 +54,17 @@ object GoCyclo extends MetricsTool {
   private def parseOutput(results: CommandResult): List[FileMetrics] = {
     val regex: Regex = """(\d*?) (.*?) (.*?) (.*):(\d*):(\d*)""".r
 
-    val lineComplexities: Seq[(String, LineComplexity)] = results.stdout.flatMap {
+    val lineComplexities = results.stdout.view.flatMap {
       case regex(complexity, _, _, fileName, row, _) =>
         Option((fileName, LineComplexity(row.toInt, complexity.toInt)))
       case _ => None
     }
 
-    val lineComplexitiesWithFilename: Map[String, Seq[(String, LineComplexity)]] = lineComplexities.groupBy {
+    val lineComplexitiesWithFilename = lineComplexities.groupBy {
       case (fileName, _) => fileName
     }
-    val lineComplexitiesByFilename: Map[String, Set[LineComplexity]] =
-      lineComplexitiesWithFilename.mapValues(_.map { case (_, complexities) => complexities }(collection.breakOut))
+    val lineComplexitiesByFilename =
+      lineComplexitiesWithFilename.view.mapValues(_.map { case (_, complexities) => complexities })
     lineComplexitiesByFilename.map {
       case (fileName, fileLineComplexities) =>
         FileMetrics(
@@ -72,10 +72,10 @@ object GoCyclo extends MetricsTool {
           complexity = Some((fileLineComplexities.map(_.value) ++ Set(0)).max),
           loc = None,
           cloc = None,
-          lineComplexities = fileLineComplexities,
+          lineComplexities = fileLineComplexities.toSet,
           nrMethods = Option(fileLineComplexities.size) // since each line is a method/function
         )
-    }(collection.breakOut)
+    }.to(List)
   }
 
 }
