@@ -8,7 +8,7 @@ name := "codacy-metrics-gocyclo"
 // App Dependencies
 libraryDependencies ++= Seq(
   "com.codacy" %% "codacy-metrics-scala-seed" % "0.2.0",
-  "org.specs2" %% "specs2-core" % "4.7.1" % Test)
+  "org.specs2" %% "specs2-core" % "4.8.0" % Test)
 
 mappings in Universal ++= {
   (resourceDirectory in Compile).map { resourceDir: File =>
