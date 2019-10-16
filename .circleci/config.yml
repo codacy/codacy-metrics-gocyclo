@@ -14,12 +14,10 @@ workflows:
           name: publish_docker_local
           cmd: |
             # needed to run tests
-            echo 'export GOPATH="/go"' >> $BASH_ENV
-            echo 'export PATH="$GOPATH/bin:$PATH"' >> $BASH_ENV
             sudo apt-get update
             sudo apt-get install -y musl-dev git golang
-            sudo go get github.com/fzipp/gocyclo
-            sbt "set scalafmtUseIvy in ThisBuild := false;
+            GOPATH="/go" sudo go get github.com/fzipp/gocyclo
+            PATH=$GOPATH/bin:$PATH sbt "set scalafmtUseIvy in ThisBuild := false;
                  scalafmt::test;
                  test:scalafmt::test;
                  sbt:scalafmt::test;
