@@ -1,7 +1,7 @@
 # codacy-metrics-gocyclo
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bf84767dabda4586bdb8a7c434c1f568)](https://www.codacy.com/app/Codacy/codacy-metrics-gocyclo?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codacy/codacy-metrics-gocyclo&amp;utm_campaign=Badge_Grade)
-[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/bf84767dabda4586bdb8a7c434c1f568)](https://www.codacy.com/app/Codacy/codacy-metrics-gocyclo?utm_source=github.com&utm_medium=referral&utm_content=codacy/codacy-metrics-gocyclo&utm_campaign=Badge_Coverage)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bf84767dabda4586bdb8a7c434c1f568)](https://www.codacy.com/gh/codacy/codacy-metrics-gocyclo?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codacy/codacy-metrics-gocyclo&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/bf84767dabda4586bdb8a7c434c1f568)](https://www.codacy.com/gh/codacy/codacy-metrics-gocyclo?utm_source=github.com&utm_medium=referral&utm_content=codacy/codacy-metrics-gocyclo&utm_campaign=Badge_Coverage)
 [![CircleCI](https://circleci.com/gh/codacy/codacy-metrics-gocyclo.svg?style=svg)](https://circleci.com/gh/codacy/codacy-metrics-gocyclo)
 [![Docker Version](https://images.microbadger.com/badges/version/codacy/codacy-metrics-gocyclo.svg)](https://microbadger.com/images/codacy/codacy-metrics-gocyclo "Get your own version badge on microbadger.com")
 
