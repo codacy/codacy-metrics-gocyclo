@@ -5,10 +5,10 @@ enablePlugins(DockerPlugin)
 organization := "com.codacy"
 scalaVersion := "2.13.1"
 name := "codacy-metrics-gocyclo"
-// App Dependencies
+
 libraryDependencies ++= Seq(
-  "com.codacy" %% "codacy-metrics-scala-seed" % "0.2.0",
-  "org.specs2" %% "specs2-core" % "4.8.0" % Test)
+  "com.codacy" %% "codacy-metrics-scala-seed" % "0.2.2",
+  "org.specs2" %% "specs2-core" % "4.9.2" % Test)
 
 mappings in Universal ++= {
   (resourceDirectory in Compile).map { resourceDir: File =>
