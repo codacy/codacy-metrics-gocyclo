@@ -38,7 +38,7 @@ dockerCommands := dockerCommands.value.flatMap {
         """apk update &&
           |apk add --no-cache bash &&
           |apk add musl-dev go git &&
-          |go get github.com/fzipp/gocyclo &&
+          |go get github.com/fzipp/gocyclo/cmd/gocyclo &&
           |apk del musl-dev git &&
           |rm -rf /tmp/* &&
           |rm -rf /var/cache/apk/*""".stripMargin.replaceAll(System.lineSeparator(), " ")),
