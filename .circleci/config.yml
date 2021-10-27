@@ -13,24 +13,10 @@ workflows:
       - codacy/sbt:
           name: publish_docker_local
           cmd: |
-            # needed to run tests
-            sudo apt-get update
-            sudo apt-get install -y musl-dev git golang
-
-            mkdir ~/go
-            export GOPATH=~/go
-            go get github.com/fzipp/gocyclo/cmd/gocyclo
-
-
-            export PATH=$GOPATH/bin:$PATH
-            sbt "set scalafmtUseIvy in ThisBuild := false;
-                 scalafmt::test;
-                 test:scalafmt::test;
+            sbt "scalafmt::test;
                  sbt:scalafmt::test;
-                 test;
-                 set name := \"$CIRCLE_PROJECT_REPONAME\";
-                 set version in Docker := \"latest\";
-                 docker:publishLocal"
+                 stage"
+            docker build -t $CIRCLE_PROJECT_REPONAME:latest .
             docker save --output docker-image.tar $CIRCLE_PROJECT_REPONAME:latest
           persist_to_workspace: true
           requires:
