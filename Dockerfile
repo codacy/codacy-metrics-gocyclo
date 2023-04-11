@@ -1,4 +1,4 @@
-FROM amazoncorretto:8-alpine3.16-jre
+FROM amazoncorretto:8-alpine3.17-jre
 
 ENV GOPATH /go
 ENV PATH /go/bin:$PATH
